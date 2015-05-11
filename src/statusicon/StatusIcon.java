@@ -13,8 +13,19 @@ import javax.swing.ImageIcon;
 public class StatusIcon {
 	
 	public static enum Mode {
+		/**
+		 * Will draw images in progressIcons depending on value
+		 */
 		IMAGES,
+		
+		/**
+		 * Will draw progressbar, check fields background, foreground and border
+		 */
 		PROGRESSBAR,
+		
+		/**
+		 * Will draw progressbar and percentage in the middle of the icon
+		 */
 		PERCENTAGE;
 	}
 
@@ -25,6 +36,10 @@ public class StatusIcon {
 	private int max = 100;
 	private int value;
 	private List<Image> progressIcons = new ArrayList<Image>();
+	
+	private Color background = Color.gray;
+	private Color foreground = Color.green.darker();
+	private Color border = Color.black;
 	
 	public StatusIcon(Mode mode, int width, int height, TrayIcon icon, List<Image> progressIcons) {
 		this.mode = mode;
@@ -53,14 +68,26 @@ public class StatusIcon {
 		if (mode == Mode.IMAGES) {
 			Image current = progressIcons.get((int) (((float) value / (float) max) * progressIcons.size()));
 			g.drawImage(current, 0, 0, width, height, null);						
-		} else if (mode == Mode.PROGRESSBAR) {
+		} else if (mode == Mode.PROGRESSBAR || mode == Mode.PERCENTAGE) {
 			int w = (int) (((float) value / (float) max) * width);
 			
-			g.setColor(Color.black);
-			g.drawRect(0, 0, width, height);
+			g.setColor(background);
+			g.fillRect(0, 0, width, height);
 			
-			g.setColor(Color.green);
-			g.drawRect(0, 0, w, height);
+			g.setColor(foreground);
+			g.fillRect(0, 0, w, height);
+			
+			if (border != null) {
+				g.setColor(border);
+				g.drawRect(0, 0, width - 1, height - 1);
+			}
+			
+			if (mode == Mode.PERCENTAGE) {
+				String val = (int) (((float) value / (float) max) * 100) + "";
+				
+				g.setColor(Color.white);
+				g.drawString(val, width / 2 - g.getFontMetrics().stringWidth(val) / 2, height / 2 + g.getFontMetrics().getHeight() / 4);
+			}
 		}
 		
 		if (icon != null) {
@@ -97,5 +124,29 @@ public class StatusIcon {
 	
 	public void setMaximum(int max) {
 		this.max = max;
+	}
+
+	public Color getBackground() {
+		return background;
+	}
+
+	public void setBackground(Color background) {
+		this.background = background;
+	}
+
+	public Color getForeground() {
+		return foreground;
+	}
+
+	public void setForeground(Color foreground) {
+		this.foreground = foreground;
+	}
+
+	public Color getBorder() {
+		return border;
+	}
+
+	public void setBorder(Color border) {
+		this.border = border;
 	}
 }
