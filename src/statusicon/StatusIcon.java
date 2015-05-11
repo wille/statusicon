@@ -11,6 +11,8 @@ public class StatusIcon {
 	private int width;
 	private int height;
 	private TrayIcon icon;
+	private int max;
+	private int value;
 	
 	public StatusIcon(int width, int height, TrayIcon icon) {
 		this.width = width;
@@ -35,5 +37,21 @@ public class StatusIcon {
 		Graphics2D g = image.createGraphics();
 		
 		return image;
+	}
+	
+	public int getValue() {
+		return this.value;
+	}
+	
+	public void setValue(int value) {
+		this.value = value;
+	}
+	
+	public int getMaximum() {
+		return this.max;
+	}
+	
+	public void setMaximum(int max) {
+		this.max = max;
 	}
 }
