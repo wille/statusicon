@@ -10,7 +10,14 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 public class StatusIcon {
+	
+	public static enum Mode {
+		IMAGES,
+		PROGRESSBAR,
+		PERCENTAGE;
+	}
 
+	private Mode mode;
 	private int width;
 	private int height;
 	private TrayIcon icon;
@@ -33,10 +40,6 @@ public class StatusIcon {
 		this(16, 16, icon, new ArrayList<Image>());
 	}
 	
-	public StatusIcon() {
-		this(16, 16, null);
-	}
-	
 	public ImageIcon getIcon() {
 		return new ImageIcon(update());
 	}
@@ -53,6 +56,14 @@ public class StatusIcon {
 		}
 		
 		return image;
+	}
+	
+	public Mode getMode() {
+		return this.mode;
+	}
+	
+	public void setMode(Mode mode) {
+		this.mode = mode;
 	}
 	
 	public List<Image> getIcons() {
