@@ -1,5 +1,6 @@
 package statusicon;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.TrayIcon;
@@ -17,7 +18,7 @@ public class StatusIcon {
 		PERCENTAGE;
 	}
 
-	private Mode mode;
+	private Mode mode = Mode.IMAGES;
 	private int width;
 	private int height;
 	private TrayIcon icon;
@@ -48,8 +49,18 @@ public class StatusIcon {
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = image.createGraphics();
 
-		Image current = progressIcons.get((int) (((float) value / (float) max) * progressIcons.size()));
-		g.drawImage(current, 0, 0, width, height, null);
+		if (mode == Mode.IMAGES) {
+			Image current = progressIcons.get((int) (((float) value / (float) max) * progressIcons.size()));
+			g.drawImage(current, 0, 0, width, height, null);						
+		} else if (mode == Mode.PROGRESSBAR) {
+			int w = (int) (((float) value / (float) max) * width);
+			
+			g.setColor(Color.black);
+			g.drawRect(0, 0, width, height);
+			
+			g.setColor(Color.green);
+			g.drawRect(0, 0, w, height);
+		}
 		
 		if (icon != null) {
 			icon.setImage(image);
