@@ -18,7 +18,7 @@ public class StatusIcon {
 		PERCENTAGE;
 	}
 
-	private Mode mode = Mode.IMAGES;
+	private Mode mode;
 	private int width;
 	private int height;
 	private TrayIcon icon;
@@ -26,19 +26,20 @@ public class StatusIcon {
 	private int value;
 	private List<Image> progressIcons = new ArrayList<Image>();
 	
-	public StatusIcon(int width, int height, TrayIcon icon, List<Image> progressIcons) {
+	public StatusIcon(Mode mode, int width, int height, TrayIcon icon, List<Image> progressIcons) {
+		this.mode = mode;
 		this.width = width;
 		this.height = height;
 		this.icon = icon;
 		this.progressIcons = progressIcons;
 	}
 	
-	public StatusIcon(int width, int height, TrayIcon icon) {
-		this(width, height, icon, new ArrayList<Image>());
+	public StatusIcon(Mode mode, int width, int height, TrayIcon icon) {
+		this(mode, width, height, icon, new ArrayList<Image>());
 	}
 	
-	public StatusIcon(TrayIcon icon) {
-		this(16, 16, icon, new ArrayList<Image>());
+	public StatusIcon(Mode mode, TrayIcon icon) {
+		this(mode, 16, 16, icon, new ArrayList<Image>());
 	}
 	
 	public ImageIcon getIcon() {
