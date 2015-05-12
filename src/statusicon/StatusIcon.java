@@ -42,6 +42,8 @@ public class StatusIcon {
 	private Color foreground = Color.green.darker();
 	private Color border = Color.black;
 	
+	private IndeterminateThread thread;
+	
 	public StatusIcon(Mode mode, int width, int height, TrayIcon icon, List<Image> progressIcons) {
 		this.mode = mode;
 		this.width = width;
@@ -153,9 +155,37 @@ public class StatusIcon {
 	
 	public void setIndeterminate(boolean b) {
 		this.indeterminate = b;
+		
+		if (b) {
+			thread = new IndeterminateThread();
+			thread.start();
+		} else {
+			thread.interrupt();
+		}
 	}
 	
 	public boolean isIndeterminate() {
 		return this.indeterminate;
+	}
+	
+	private class IndeterminateThread extends Thread {
+		
+		@Override
+		public void run() {
+			while (indeterminate) {
+				try {
+					value++;
+					if (value >= max) {
+						value = 0;
+					}
+					Thread.sleep(500L / progressIcons.size());
+					update();
+				} catch (InterruptedException ex) {
+					
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 }
