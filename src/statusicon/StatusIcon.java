@@ -162,6 +162,7 @@ public class StatusIcon {
 		} else {
 			thread.interrupt();
 			value = 0;
+			update();
 		}
 	}
 	
