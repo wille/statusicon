@@ -36,6 +36,7 @@ public class StatusIcon {
 	private int max = 100;
 	private int value;
 	private List<Image> progressIcons = new ArrayList<Image>();
+	private boolean indeterminate;
 	
 	private Color background = Color.gray;
 	private Color foreground = Color.green.darker();
@@ -148,5 +149,13 @@ public class StatusIcon {
 
 	public void setBorder(Color border) {
 		this.border = border;
+	}
+	
+	public void setIndeterminate(boolean b) {
+		this.indeterminate = b;
+	}
+	
+	public boolean isIndeterminate() {
+		return this.indeterminate;
 	}
 }
